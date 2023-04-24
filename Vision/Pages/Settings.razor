@@ -1,0 +1,53 @@
+﻿@page "/settings"
+
+@using Vision.Pages
+
+<div class="col-lg-8 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+
+          @*  Hier moet een grid*@
+
+        </div>
+       <div class="col-xs-6">
+                
+        </div>
+        <br />
+        <div class="col-xs-6">
+                    
+                
+        </div>
+        <br />
+        <div class="col-xs-6">
+                    
+                
+        </div>
+        <br />
+
+       <div class="col-lg-12 col-sm-12 col-md-12 center">
+        <div id="toastBtnDefault" style="margin: auto;text-align: center">
+        </div>
+    </div>
+    </div>
+</div>
+
+<style>
+    #toast_default .e-meeting::before {
+        content: "\e705";
+        font-size: 17px;
+    }
+    .bootstrap4 #toast_default .e-meeting::before {
+        content: "\e763";
+        font-size: 20px;
+    }
+    .tailwind #toast_default .e-meeting::before,
+    .tailwind-dark #toast_default .e-meeting::before {
+        content: "\e7a1";
+        font-size: 18px;
+    }
+    .bootstrap5 #toast_default .e-meeting::before,
+    .bootstrap5-dark #toast_default .e-meeting::before {
+        content: "\e7e9";
+        font-size: 18px;
+    }
+</style>

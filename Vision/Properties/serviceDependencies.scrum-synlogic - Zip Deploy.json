@@ -1,0 +1,31 @@
+{
+  "dependencies": {
+    "identityapp1": {
+      "type": "identityapp.aad"
+    },
+    "mssql1": {
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/synscrumxxl-prod-dbs/databases/synscrumxxl-prod-sql",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:SynScrumNEW_PROD"
+    },
+    "mssql2": {
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/synscrumxxl-prod-dbs/databases/synscrumxxl-dev-sql",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:SynScrumNEW_DEV"
+    },
+    "secrets1": {
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.KeyVault/vaults/synscrumxxl-prod-kv",
+      "type": "secrets.keyVault",
+      "connectionId": "VaultUri"
+    },
+    "signalr1": {
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.SignalRService/SignalR/scrum-prod-sr",
+      "type": "signalr.azure",
+      "connectionId": "Azure:SignalR:ConnectionString"
+    }
+  }
+}

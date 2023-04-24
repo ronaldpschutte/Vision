@@ -1,0 +1,31 @@
+﻿@using Vision.Services
+@inject PersonalContextProvider personalContext
+
+<AuthorizeView>
+    
+    <Authorized>
+        <div style="color:white;padding-top:0.5em;padding-bottom:0.5em;display:flex; gap:30px;display: flex; align-items:center">
+            @if(personalContext == null){
+             <span>   <i class="fa-solid fa-address-book"></i>
+                 Hello, @context.User.Identity?.Name!
+                </span>
+            }
+            else
+            {
+                <span>Hello, @personalContext.MyTeamMember.FirstName</span>
+
+                <span><MudAvatar Style="@($"background-color:{personalContext.MyTeamMember.GetPersonalColor()};")" >@(personalContext.MyTeamMember.GetInitials())</MudAvatar></span>
+                                    
+            }
+            <a href="MicrosoftIdentity/Account/SignOut">Log out</a> 
+            @*Fold-out menu met settings en logout*@
+        </div>
+    </Authorized>
+    <NotAuthorized>
+         <div style="color:white;text-align:right">
+        <a href="MicrosoftIdentity/Account/SignIn">Log in</a>
+        </div>
+    </NotAuthorized>
+   
+</AuthorizeView>
+

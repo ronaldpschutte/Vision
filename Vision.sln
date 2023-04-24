@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32126.317
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vision", "Vision\Vision.csproj", "{62A47FAC-D732-4E25-9F23-0718C25A0509}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{33F96B78-ECC8-4DD1-B8CB-061EA17BDC51}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Synlogic.Azure.KeyVault", "..\KeyVaultProvider\Synlogic.Azure.KeyVault\Synlogic.Azure.KeyVault.csproj", "{6BBB3F3E-A2BA-4E6E-AC35-31557EEF24A5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{62A47FAC-D732-4E25-9F23-0718C25A0509}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62A47FAC-D732-4E25-9F23-0718C25A0509}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62A47FAC-D732-4E25-9F23-0718C25A0509}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62A47FAC-D732-4E25-9F23-0718C25A0509}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BBB3F3E-A2BA-4E6E-AC35-31557EEF24A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BBB3F3E-A2BA-4E6E-AC35-31557EEF24A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BBB3F3E-A2BA-4E6E-AC35-31557EEF24A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BBB3F3E-A2BA-4E6E-AC35-31557EEF24A5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C7D0E597-83A9-417B-899E-99E4E4F89B06}
+	EndGlobalSection
+EndGlobal

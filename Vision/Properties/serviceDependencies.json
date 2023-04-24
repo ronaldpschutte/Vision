@@ -1,0 +1,28 @@
+{
+  "dependencies": {
+    "identityapp1": {
+      "type": "identityapp"
+    },
+    "mssql1": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:SynScrumNEW_PROD"
+    },
+    "mssql2": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:SynScrumNEW_DEV"
+    },
+    "secrets1": {
+      "type": "secrets",
+      "connectionId": "VaultUri"
+    },
+    "signalr1": {
+      "type": "signalr",
+      "connectionId": "Azure:SignalR:ConnectionString"
+    },
+    "appInsights1": {
+      "type": "appInsights",
+      "connectionId": "APPLICATIONINSIGHTS_CONNECTION_STRING",
+      "dynamicId": null
+    }
+  }
+}

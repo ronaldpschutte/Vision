@@ -1,0 +1,176 @@
+﻿<div class="tbTile ui-draggable ui-draggable-handle childTbTile">
+    <div class="tbTileContent d-flex flex-row">
+        <MudProgressLinear Vertical="true"
+                           Color="(Item.StepType == 0)?Color.Tertiary:Color.Info"
+                           Size="Size.Small"
+                           Value="@Item.PercentComplete"
+                           Min="0"
+                           Max="100"
+                           Style="height: auto;" />
+
+        <div style="width:99%">
+            <div class="id-title-container">
+                <span class="work-item-type-icon-host">
+                    <div class="work-item-type-icon-wrapper">
+                        @if (Item.StepType == 0)
+                        {
+                            <MudIcon Icon="@Icons.Filled.Task" />
+                        }
+                        else if (Item.StepType == 1)
+                        {
+                            <MudIcon Icon="@Icons.Filled.ConfirmationNumber" />
+                        }
+                        else
+                        {
+                            <MudIcon Icon="@Icons.Filled.InsertDriveFile" />
+                        }
+                    </div>
+                </span>
+                <div class="title ellipsis">
+                    <MudButton OnClick="() => OpenAutotask()">   <span class="clickable-title">@Item.Title</span></MudButton>
+
+                </div>
+            </div>
+            <div class="card-container row">
+                <div class="col-10">
+                    @if (IsEdit)
+                    {
+                        <div class="row">
+                            <div class="col-11">
+                                <MudSelect Value="@GetPrimaryValue()" ValueChanged="PrimaryValueChanged" Clearable T="long?" Label="Primary Resource">
+                                    @foreach (var item in GetTeamMemberRoles())
+                                    {
+                                        <MudSelectItem T="long?" Value="@item.TeamMemberRoleId">@item.TeamMember.FirstName @item.TeamMember.LastName (@item.Role.Name)</MudSelectItem>
+
+                                    }
+                                </MudSelect>
+                            </div>
+                            <div class="col-11">
+                                <MudSelect SelectedValues="@GetSecondaryValues()" SelectedValuesChanged="SecondaryValuesChanged" MultiSelection="true" Clearable T="long?" Label="Secondary Resources">
+                                    @foreach (var item in GetTeamMemberRoles())
+                                    {
+                                        if (GetSecondaryValuesItems().Any(x => (x.TeamMemberId == item.TeamMemberId && x.RoleId != item.RoleId) || (int?)item.TeamMemberId == Item.AssignedTeamMemberId))
+                                        {
+                                            <MudSelectItem Disabled="true" T="long?" Value="@item.TeamMemberRoleId">
+                                                @*@item.TeamMember.GetInitials() *@
+                                                @item.TeamMember.FirstName @item.TeamMember.LastName
+                                                (@item.Role.Name)
+                                            </MudSelectItem>
+
+                                        }
+                                        else
+                                        {
+                                            <MudSelectItem T="long?" Value="@item.TeamMemberRoleId">
+                                                @*@item.TeamMember.GetInitials() *@
+                                                @item.TeamMember.FirstName @item.TeamMember.LastName
+                                                (@item.Role.Name)
+                                            </MudSelectItem>
+                                        }
+                                    }
+                                </MudSelect>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="title">
+                            @if (Item.StepType == 0)
+                            {
+                                <p><i><b>@Item.Project.ProjectName</b></i></p>
+                                <p><i>@((MarkupString)(Item.Phase?.Title??"&nbsp;"))</i></p>
+                            }
+                            else if (Item.StepType == 1)
+                            {
+                                <p><i>@(Item.Queue?.QueueName ??"Geen queue")</i></p>
+                            }
+                        </div>
+                    }
+                </div>
+                <div class="col-2 @((!IsEdit)?"editTeamMembers":"")">
+                    <MudToggleIconButton Icon="@Icons.Filled.Edit" ToggledIcon="@Icons.Filled.Save" Toggled="@IsEdit" Size="Size.Small" ToggledChanged="ToggleEdit" />
+                </div>
+            </div>
+            @*@if (Item.StepType == 1)
+            {
+            <div class="field-container onTileEditDiv non-combo-behavior ellipsis  effort witRemainingWork">
+            <div class="field-inner-element ellipsis onTileEditTextDiv">
+            <span>DueDate @Item.EndDate</span>
+            </div>
+            </div>
+            }*@
+            <div class="card-container d-flex flex-row justify-content-between">
+
+                <div class="col-6" style="padding: 5% 5% 0 3%;">
+                    @if (IsEdit)
+                    {
+                        <MudSlider Min="0"
+                               Max="100"
+                               T="int"
+                               @bind-Value="Item.PercentComplete"
+                               Step="5"
+                               Size="Size.Small"
+                               ValueLabel="true" />
+                    }
+                    else
+                    {
+                        <div class="field-inner-element ellipsis onTileEditTextDiv" style="display:flex ; flex-direction:row">
+                            @if (Item.AssignedTeamMemberId == null)
+                            {
+                                <MudAvatar Size="Size.Small" Color="Color.Transparent"><span>1<sup>st</sup></span></MudAvatar>
+                            }
+                            else
+                            {
+                                string fullName = Item.AssignedTeamMember.FirstName + " " + Item.AssignedTeamMember.LastName;
+                                <MudTooltip Text="@(fullName)">
+                                    <MudAvatar Size="Size.Small" Color="Color.Primary" Style="margin-right:10px;">@Item.AssignedTeamMember.GetInitials()</MudAvatar>
+                                </MudTooltip>
+                            }
+
+                            @if (Item.WorkflowStep2TeamMember.Any())
+                            {
+                                var fullNames = String.Join("<br/>", Item.WorkflowStep2TeamMember.Select(x => x.TeamMember.GetFullName()));
+                                <MudTooltip>
+
+                                    <ChildContent>
+                                        <MudAvatarGroup MaxSize="Size.Small" Max="3" Spacing="3" MaxColor="Color.Primary">
+                                            @foreach (var item in Item.WorkflowStep2TeamMember)
+                                            {
+                                                <MudAvatar Size="Size.Small" Color="Color.Secondary"><span>@item.TeamMember.GetInitials()</span></MudAvatar>
+                                            }
+                                        </MudAvatarGroup>
+                                    </ChildContent>
+                                    <TooltipContent>
+                                        @((MarkupString)fullNames)
+                                    </TooltipContent>
+                                </MudTooltip>
+                            }
+                            else
+                            {
+                                <MudAvatar Size="Size.Small" Color="Color.Transparent"><span>2<sup>nd</sup></span></MudAvatar>
+                            }
+                        </div>
+                    }
+                </div>
+                <div class="col-6">
+                    <!-- <span class="workitem-state-circle2 onTileEditTextDiv">
+                    </span> -->
+                    <MudSelect T="int" @bind-Value="Item.AutotaskStatusId" Label="Status" AnchorOrigin="Origin.BottomCenter" SelectedValuesChanged="ChangeValue">
+                        @foreach (var item2 in contextProvider.AutoTaskStatuses.Where(x => x.ScrumStatusId == Item.AutotaskStatus.ScrumStatusId))
+                        {
+                            <MudSelectItem Value="@item2.AutoTaskStatusId">
+                                @*                                        <span>@item2.ScrumStatusId - @item2.AutoTaskStatusId - @item2.AutoTaskStatusText</span>*@
+                                <span>@item2.AutoTaskStatusText</span>
+                            </MudSelectItem>
+
+                        }
+                    </MudSelect>
+
+                </div>
+            </div>
+        </div>
+        @*<div class="card-context-menu onTileEditTextDiv" tabindex="0" role="button" aria-label="Actions">
+        <div class="bowtie-icon bowtie-ellipsis">...</div>
+        </div>*@
+    </div>
+</div>
+

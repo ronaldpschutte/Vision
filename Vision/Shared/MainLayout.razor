@@ -1,0 +1,200 @@
+﻿@using Vision.Pages
+@inherits LayoutComponentBase
+
+<div class="page">
+    <main>
+        <MudThemeProvider @bind-IsDarkMode="@DarkMode" Theme="_theme" />
+        <MudDialogProvider/>
+        <MudSnackbarProvider/>
+            <div class="header" style="background-color:black; display:flex; flex-direction:row ;position: fixed; width:100%; z-index:100;align-items:center; border-top: 2px solid orange; border-bottom: 2px solid orange" >
+                <img src="synlogic_1024.png" alt="logo" height="35" style="padding-left:40px">
+                @*<NavMenu></NavMenu>*@
+                <MudButtonGroup  Size="Size.Large" Variant="Variant.Filled">
+                    <MudButton Link="personal">
+                              <span class="menuitem">Personal <MudIcon Icon="@Icons.TwoTone.AccountCircle" Title="personal" /> </span> 
+                    </MudButton>
+                    <MudButton Link="/team">
+                               <span class="menuitem">Team <MudIcon Icon="@Icons.TwoTone.Groups" Title="Team" /> </span> 
+                    </MudButton>
+                    <MudButton Link="/planning">
+                               <span class="menuitem">Planning <MudIcon Icon="@Icons.TwoTone.FormatListNumbered" Title="Planning" /></span> 
+                    </MudButton> 
+                    <MudButton Link="/backlog">
+                               <span class="menuitem">Backlog <MudIcon Icon="@Icons.TwoTone.TaskAlt" Title="Backlog" /> </span> 
+                    </MudButton>
+                        <MudButton Link="/tickets">
+                               <span class="menuitem">Tickets <MudIcon Icon="@Icons.TwoTone.CrisisAlert" Title="grid" /></span> 
+                    </MudButton>
+                </MudButtonGroup>
+<MudIconButton Icon="fas fa-atom" Color="Color.Error"></MudIconButton>
+                @*@if(#DEBUG){<MudIcon Icon="@Icons.TwoTone.LogoDev" Size="Size.Large" Color="Color.Error"></MudIcon>}*@
+                 <MudButtonGroup  Size="Size.Large" Variant="Variant.Filled">
+                     @*swimlanes*@
+                    @* <MudToggleIconButton @bind-Toggled="@DarkMode"
+                     Icon="@Icons.TwoTone.FormatLineSpacing" Style="color:white" Title="Swimlanes On"
+                     ToggledIcon="@Icons.TwoTone.VerticalAlignCenter" ToggledColor="@Color.Warning" ToggledTitle="Swimlanes Off"/>*@
+                     
+                     @*
+                     <MudToggleIconButton @bind-Toggled="@DarkMode"
+                     Icon="@Icons.Outlined.ManageSearch" Style="color:white" Title="Swimlanes On"
+                     ToggledIcon="@Icons.Outlined.ManageSearch" ToggledColor="@Color.Warning" ToggledTitle="Swimlanes Off"/>
+
+
+                     @*filter
+                     <MudToggleIconButton @bind-Toggled="@OpenFilterWnd"
+                     Icon="@Icons.Material.TwoTone.FilterAlt" Style="color:white" Title="Off"
+                     ToggledIcon="@Icons.Material.TwoTone.FilterAltOff" ToggledColor="@Color.Warning" ToggledTitle="On"/>
+                     *@
+                     @*time entry*@
+                     <MudToggleIconButton @bind-Toggled="@OpenTimeEntyWnd"
+                     Icon="@Icons.Material.TwoTone.Alarm" Style="color:white" Title="Off"
+                     ToggledIcon="@Icons.Material.TwoTone.AlarmOff" ToggledColor="@Color.Warning" ToggledTitle="On"/>
+                     @*billing code*@
+                     <MudToggleIconButton @bind-Toggled="@OpenBillingCodeWnd"
+                     Icon="@Icons.Material.TwoTone.EditCalendar" Style="color:white" Title="Off"
+                     ToggledIcon="@Icons.Material.TwoTone.EditCalendar" ToggledColor="@Color.Warning" ToggledTitle="On"/>
+                     @*filter*@
+                     <MudToggleIconButton @bind-Toggled="@DarkMode"
+                     Icon="@Icons.Material.TwoTone.WbSunny" Style="color:white" Title="Off"
+                     ToggledIcon="@Icons.Material.TwoTone.WbSunny" ToggledColor="@Color.Warning" ToggledTitle="On"/>
+                </MudButtonGroup>
+                <LoginDisplay /><div></div>
+            </div>
+        <div>
+
+            <MudLayout>
+                <MudMainContent Style="overflow-y:scroll"> 
+                    @if(OpenFilterWnd)
+                    {
+                        <DataFilter></DataFilter>
+                    }            
+                    <MudDrawer @bind-Open="@OpenTimeEntyWnd" Width="310px" Height="100%" Anchor="Anchor.End" Elevation="3" Variant="@DrawerVariant.Responsive"> 
+                        <Vision.Components.TimeEntyColomn></Vision.Components.TimeEntyColomn>
+                    </MudDrawer>
+                    @Body
+                </MudMainContent>
+                <MudDrawer @bind-Open="@OpenBillingCodeWnd" Width="100%" Height="200px" style="border-top: 2px solid orange;" Anchor="Anchor.Bottom" Elevation="1" Variant="@DrawerVariant.Temporary" DisableOverlay="true">
+                    <br />
+                   <Vision.Components.BillingCodeBar></Vision.Components.BillingCodeBar>
+                </MudDrawer>
+
+            </MudLayout>
+        </div>
+    </main>
+</div>
+
+<style>
+    .page
+    {
+        width:100vw;
+    }
+
+    .header {
+        grid-area: header;
+        background-color: black;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+    }
+    .containert {
+    width:100vw
+    }
+    .menuitem{
+        color:white
+    }
+    .menuitem:hover{
+        color:orange
+    }
+:root {
+  --gutter: 20px;
+}
+
+.app {
+  padding: var(--gutter) 0;
+  display: grid;
+  grid-template-columns: var(--gutter) 1fr var(--gutter);
+  align-content: start;
+}
+
+.app > * {
+  grid-column: 2 / -2;
+}
+
+.app > .full {
+  grid-column: 1 / -1;
+}
+
+.hs {
+  display: grid;
+  grid-gap: calc(var(--gutter) / 2);
+  grid-template-columns: 10px;
+  grid-template-rows: minmax(150px, 1fr);
+  grid-auto-flow: column;
+@*  grid-auto-columns: calc(50% - var(--gutter) * 2);*@
+
+  overflow-x: scroll;
+  scroll-snap-type: x proximity;
+  padding-bottom: calc(.75 * var(--gutter));
+  margin-bottom: calc(-.25 * var(--gutter));
+}
+
+.hs:before,
+.hs:after {
+  content: '';
+  width: 10px;
+}
+
+
+/* Demo styles */
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: grid;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+}
+
+.app {
+  width: 100%;
+  height: 100vh;
+  overflow-y: scroll;
+}
+
+.hs > li,
+.item {
+  scroll-snap-align: center;
+  padding: calc(var(--gutter) / 2 * 1.5);
+  width:300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  border-radius: 8px;
+}
+
+
+
+.no-scrollbar {
+  scrollbar-width: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+</style>

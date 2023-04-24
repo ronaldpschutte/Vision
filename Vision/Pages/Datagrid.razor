@@ -1,0 +1,71 @@
+﻿@page "/datagrid"
+@using System.Collections.ObjectModel
+@using Microsoft.Extensions.Configuration
+@using Vision.Helpers
+@using Vision.Models
+@using MudBlazor.Utilities
+
+@*datagrid experiment. Lijkt niet met complexe objecten om te kunnen gaan RPS*@
+<PageTitle>Backlog</PageTitle>
+<div class="row">
+    <br />
+    <div class="d-flex flex-column mud-width-full mud-height-full">
+    <MudDataGrid @ref="_mudTable"  Items="@CurrectSprintSteps" EditMode="DataGridEditMode.Cell" Groupable="true" Filterable="true">
+    <Columns><Column T="WorkflowStep" Field="CompanyName" IsEditable="false">
+             <CellTemplate>
+                @context.Item.CompanyName
+            </CellTemplate>
+        </Column> 
+        <Column T="WorkflowStep" Field="ProjectName" IsEditable="false">
+             <CellTemplate>
+                @context.Item.ProjectName
+            </CellTemplate>
+        </Column>
+        <Column T="WorkflowStep" Field="PhaseName" IsEditable="false">
+             <CellTemplate>
+                @context.Item.PhaseName
+            </CellTemplate>
+            <GroupTemplate>text test</GroupTemplate>
+        </Column>
+        <Column T="WorkflowStep" Field="@nameof(WorkflowStep.AutotaskNumber)"/>
+        <Column T="WorkflowStep" Field="@nameof(WorkflowStep.Title)"/>
+        <Column T="WorkflowStep" Field="@nameof(WorkflowStep.Description)"/>
+         
+        <Column T="WorkflowStep" Title="TeamMember">
+            <CellTemplate>
+                @context.Item.AssignedTeamMember?.UserName
+            </CellTemplate>
+            <EditTemplate>
+                <MudSelect @bind-Value="context.Item.AssignedTeamMemberId" Margin="@Margin.Dense">
+                    @foreach (var tm in ActiveTeamMembers)
+                        {
+                            <MudSelectItem Value="@tm.TeamMemberId"> @tm.UserName </MudSelectItem>
+                        }
+                </MudSelect>
+            </EditTemplate>
+        </Column>
+@*        <Column T="WorkflowStep" Field="WorkflowStep.EstimatedHours"/>
+        <Column T="WorkflowStep" Field="WorkflowStep.ActualHours"/>
+        @*<Column T="WorkflowStep" Field="Status">
+             <CellTemplate>
+                @context.Item.Status
+            </CellTemplate>
+            <EditTemplate>
+                <MudSelect @bind-Value="context.Item.Status" Margin="@Margin.Dense">
+                     @foreach (var status in Statusses)
+                        {
+                            <MudSelectItem Value="@status" />
+                        }
+                </MudSelect>
+            </EditTemplate>
+        </Column>*@
+    </Columns>
+</MudDataGrid>
+        
+        
+    </div>
+    <div class="col-lg-12 control-section" style="padding: 2vw;">
+    </div>
+</div>
+@ErrorMessage
+<br />

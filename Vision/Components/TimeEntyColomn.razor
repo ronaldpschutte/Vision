@@ -1,0 +1,21 @@
+﻿
+
+<div style="width:310px;display:flex; flex-direction:column"><MudPaper>
+     <div class="DateContainer" style=";align-self:center;justify-self:center;background-color:#2196f3ff;color:white;margin:0;padding:0">
+         
+       <MudDatePicker style="width:75%;align-self:center;justify-self:center;font-family:Roboto;font-size:xx-large;margin:0;padding:0;" PickerVariant="PickerVariant.Inline" Date="@(DateTime.Today)" AdornmentColor="Color.Info" ReadOnly="true" AnchorOrigin="Origin.TopCenter" Color=Color.Info FixYear="@(DateTime.Today.Year)" TitleDateFormat="dd-MM-yyyy"/>
+       </div> 
+        @if(@timeEntryService.ActiveTimeEntry != null && timeEntryService.ActiveTimeEntry.BillingCodeID != null)
+        {
+            <TimeEntryRow dbEntry="timeEntryService.ActiveTimeEntry"></TimeEntryRow>
+        }
+       @foreach(var timeEntry in timeEntryService.DayTimeEntries.OrderByDescending(c => c.StartDateTime))
+        {
+            <hr style="height:2px;border-width:0;color:#2196f3ff;background-color:#2196f3ff;margin:5px;padding:1px">
+          @* <MudDivider DividerType="DividerType.Inset" />*@
+            <TimeEntryRow dbEntry="timeEntry"></TimeEntryRow>
+        }
+        @Args
+        </MudPaper>@*
+        <span>@Args</span>*@
+</div>

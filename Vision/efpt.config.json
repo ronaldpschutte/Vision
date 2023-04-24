@@ -1,0 +1,109 @@
+﻿{
+   "CodeGenerationMode": 2,
+   "ContextClassName": "SynscrumxxlDevSqlContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "Models",
+   "PreserveCasingWithRegex": true,
+   "ProjectRootNamespace": "Vision",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "Tables": [
+      {
+         "Name": "[dbo].[AutoTaskStatus]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[BillingCode]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Company]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Department]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ModelSyncedDateTime]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Phase]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Project]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Queue]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Role]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ScrumStatus]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Setting]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Sprint]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TeamMember]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TeamMemberRole]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[User]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[UserFilter]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[WorkflowStep]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[WorkflowStep2TeamMember]",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": "synscrumxxl-prod-dbs.synscrumxxl-dev-sql",
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDbContextSplitting": false,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": false,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoConstructor": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UseSchemaFolders": false,
+   "UseSpatial": false,
+   "UseT4": false
+}

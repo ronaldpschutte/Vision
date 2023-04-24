@@ -1,0 +1,139 @@
+﻿@page "/planning"
+@using System.Collections.ObjectModel
+@using Microsoft.Extensions.Configuration
+@using Vision.Helpers
+@using Vision.Models
+@using MudBlazor.Utilities
+
+<ErrorBoundary>
+    <ErrorContent Context="ex">
+        @{
+            OnError(@ex);
+        } 
+        <p>@ex.Message</p> 
+    </ErrorContent>
+</ErrorBoundary>
+
+
+<PageTitle>Planning</PageTitle>
+
+<div class="row">
+
+    <br />
+    <div class="d-flex flex-column mud-width-full mud-height-full">
+
+        <ErrorBoundary>
+            <ChildContent>
+                <MudDropContainer @ref="_mudDropContainer" T="WorkflowStep" ItemsSelector="@((item,dropzone) => item.SprintId.ToString() == dropzone)" ItemDropped="ItemUpdated" Class="d-flex flex-wrap flex-grow-1" Items="@CurrentPlanningSteps">
+                    <ChildContent>
+                        @for (int i = 1; i < 4; i++)
+                        {
+                            var dropzone = i.ToString();
+                            if (i == 3) { dropzone = "0"; 
+                                <span style="width:100%; display:flex;  justify-content:center;align-items:center; background-color:lightgray; min-height:50px">
+                                    <h4 style="color:var(--mud-palette-warning); text-shadow: 2px 2px 0 #000000, 2px -2px 0 #000000, -2px 2px 0 #000000, -2px -2px 0 #000000, 2px 0px 0 #000000, 0px 2px 0 #000000, -2px 0px 0 #000000, 0px -2px 0 #000000"><b>Te plannen</b></h4>
+                                </span>
+                            }
+                            else
+                            {
+                                <span style="width:100%; display:flex;  justify-content:center;align-items:center; background-color:lightgray; min-height:50px">
+                                   @* <h4 style="color:var(--mud-palette-warning);  -webkit-text-stroke:1px black"><b>Sprint @dropzone</b></h4>*@
+                                     <h4 style="color:var(--mud-palette-warning);  text-shadow: 2px 2px 0 #000000, 2px -2px 0 #000000, -2px 2px 0 #000000, -2px -2px 0 #000000, 2px 0px 0 #000000, 0px 2px 0 #000000, -2px 0px 0 #000000, 0px -2px 0 #000000"><b>Sprint @dropzone</b></h4>
+                                </span>
+                            }
+                            <MudPaper Class="ma-4 flex-grow-1">
+                                
+                                
+                                <MudListSubheader Style="width:100%;padding-left:0;padding-right:0;">                                  
+                                
+                                    <MudGrid Spacing="2" Style="margin-left:0px;width:100%;border-bottom: 1px solid var(--mud-palette-table-lines)">
+                                        <MudItem xs="1">
+                                            Autotask Number
+                                        </MudItem>
+                                        <MudItem xs="2">
+                                           Title
+                                        </MudItem>
+                                        <MudItem xs="2">
+                                            Description
+                                        </MudItem>
+                                        <MudItem xs="1">
+                                            Company
+                                        </MudItem>
+                                        <MudItem xs="1">
+                                            Project
+                                        </MudItem>
+                                        <MudItem xs="1">
+                                            Phase
+                                        </MudItem>
+                                        <MudItem xs="1">
+                                           Team Member
+                                        </MudItem>
+                                        <MudItem xs="1">
+                                           Estimated Hours
+                                        </MudItem>
+                                        <MudItem xs="1">
+                                           Actual Hours
+                                        </MudItem>
+                                        <MudItem xs="1">
+                                            Status
+                                        </MudItem>
+                                    </MudGrid>
+                                </MudListSubheader>
+                                <MudDropZone T="WorkflowStep" Identifier="@dropzone" Class="flex-grow-1" Style="min-height:300px;" AllowReorder="true" />
+                            </MudPaper>
+                        }
+                    </ChildContent>
+                    <ItemRenderer>
+                            <MudGrid Spacing="2" Style="margin-left:0px;width:100%;border-bottom: 1px solid var(--mud-palette-table-lines);">
+                                <MudItem xs="1">
+                                   @context.AutotaskNumber
+                                </MudItem>
+                                <MudItem xs="2">
+                                    @context.Title
+                                </MudItem>
+                                <MudItem xs="2">
+                                    @if (context.Description != null && context.Description.Length > 100)
+                                    {
+                                        @($"{context.Description.Substring(0,100)}...")
+                                    }
+                                    else
+                                    {
+                                        @context.Description
+                                    }
+                                </MudItem>
+                                <MudItem xs="1">
+                                    @context.Company?.CompanyName
+                                </MudItem>
+                                <MudItem xs="1">
+                                    @context.Project?.ProjectName
+                                </MudItem>
+                                <MudItem xs="1">
+                                  @context.Phase?.Title
+                                </MudItem>
+                                <MudItem xs="1">
+                                    @context.AssignedTeamMember?.UserName
+                                </MudItem>
+                                <MudItem xs="1">
+                                    @context.EstimatedHours
+                                </MudItem>
+                                <MudItem xs="1">
+                                   @context.ActualHours
+                                </MudItem>
+                                <MudItem xs="1">
+                                    @context.AutotaskStatus.AutoTaskStatusText
+                                </MudItem>
+                            </MudGrid>
+                    </ItemRenderer>
+                </MudDropContainer>
+            </ChildContent>
+            <ErrorContent Context="ex">
+                @{
+                    OnError(@ex);
+                } 
+                <p>@ex.Message</p>
+            </ErrorContent>
+        </ErrorBoundary>
+    </div>
+</div>
+@ErrorMessage
+<br />

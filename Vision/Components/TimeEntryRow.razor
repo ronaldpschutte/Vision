@@ -1,0 +1,123 @@
+﻿
+        <div class="container" >
+           @if(@dbEntry != null)
+            {
+            <div class="noteexpanded">
+                <div class="rps-time-entry-title">
+                    <h6 style="height:20px">@dbEntry.InternalNotes</h6>
+                </div>
+                @if(dbEntry.StartDateTime != null)
+                {
+                    <div class="rps-time-start">
+                        <MudTimePicker @bind-Time="@tsStart" Editable="true" />
+                    </div>
+
+                    <div class="rps-time-end">
+                        <MudTimePicker @bind-Time="@tsEnd" Editable="true" />
+                    </div>
+                }
+                else 
+                {
+                    <div class="rps-time-start"><br>
+                        <MudText>Hours worked: </MudText>
+                    </div>
+
+                <div class="rps-time-end">
+                    <br>
+                        <MudText>@dbEntry.HoursWorked</MudText>
+                    </div>
+                }
+            <div class="rps-note" style="height:20px">
+                <MudTextField Style="font-size: 0.8rem;height:20px" @bind-Value="dbEntry.SummaryNotes"></MudTextField>
+            </div>
+
+                <div class="rps-comment">
+                    @if(dbEntry != null && dbEntry.SummaryNotes != null && dbEntry.SummaryNotes.Length > 0)
+                    {
+                        <MudIconButton Size="Size.Medium" style="height:20px; right:5px; top:10px" Icon="@Icons.Material.TwoTone.TextSnippet" OnClick="ShowCommentField" Title="Off"></MudIconButton>
+                    }
+                    else
+                    {
+                        <MudIconButton Size="Size.Medium" style="height:20px; right:5px; top:10px" Icon="@Icons.Material.TwoTone.TextSnippet" OnClick="ShowCommentField" Color="@Color.Warning" Title="Off"></MudIconButton>
+                    }
+                </div>
+                <div class="rps-timer">
+                    @if (dbEntry != null && dbEntry.Id != 0) // RPS Validatie toevoegen?
+                    {
+                        <MudIconButton Size="Size.Medium" style="height:20px; right:5px;" Icon="@Icons.Material.TwoTone.Alarm" OnClick="CreateTimeEntry" Title="Update"></MudIconButton>
+                    }
+                    else
+                    {
+                        <MudIconButton Size="Size.Medium" style="height:20px; right:5px;" Icon="@Icons.Material.TwoTone.AlarmAdd" OnClick="CreateTimeEntry" Color="@Color.Warning" Title="Save"></MudIconButton>
+                    }
+                    @*switch moet gebeuren op een onerror en niet op update of create*@
+
+
+                   @* <MudToggleIconButton Size="Size.Medium" style="height:20px; right:5px" Icon="@Icons.Material.TwoTone.AlarmAdd" Title="Off"
+                        ToggledIcon="@Icons.Material.TwoTone.AlarmOff" ToggledSize="Size.Medium" ToggledColor="@Color.Warning" ToggledTitle="On"  ToggledChanged="SetTimeEntry"/>*@
+
+
+
+                </div>     
+                
+                <div class="rps-spacer"></div>
+            </div>
+            }
+        </div>
+
+        <style>
+        .container{
+          /*  min-width: 70%;   */          
+        }
+        .notecolapsed{
+            display: grid; 
+            gap:5px; 
+            min-height:120px;
+              grid-template-columns:  1fr 1fr 1fr;
+              grid-template-rows: 1fr 1fr;
+              grid-template-areas: 
+                "time-entry-title time-entry-title comment"
+                "time-start time-end timer"/*
+                "comment comment comment";*/
+        }
+        .noteexpanded{
+            display: grid; 
+            column-gap:10px; 
+            min-height:110px;
+              grid-template-columns:  1fr 1fr 1fr;
+              grid-template-rows: 25px 25px 25px;
+              grid-template-areas: 
+                "time-entry-title time-entry-title timer"
+                "note note comment"
+                "time-start time-end spacer"/*
+                "comment comment comment";*/
+        }
+        .rps-time-entry-title
+        {
+            grid-area: time-entry-title;
+        }
+        .rps-timer
+        {
+            grid-area: timer;
+        }
+        .rps-time-start
+         {
+            grid-area: time-start;
+        }
+        .rps-time-end 
+        {
+            grid-area: time-end;
+        }
+        .rps-comment
+        {
+            grid-area: comment;
+        }
+         .rps-note
+        {
+            grid-area: note;
+        }
+        .rps-spacer
+        {
+            grid-area: spacer;
+        }
+        </style>

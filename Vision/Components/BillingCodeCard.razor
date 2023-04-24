@@ -1,0 +1,41 @@
+﻿
+        <div class="container" >
+            <MudPaper Style="padding:10px" Elevation="4">
+            <div class="inner">
+                <h5 class="billing-code-name">@Code.Name</h5>
+                <div class="timer">
+                     <MudToggleIconButton @ref="TimerActiveToggle" Size="Size.Large" style="height:30px" Icon="@Icons.Material.TwoTone.AlarmAdd"  Title="Off" Toggled="TimerActive"
+                     ToggledIcon="@Icons.Material.TwoTone.AlarmAdd" ToggledSize="Size.Large" ToggledColor="@Color.Warning" ToggledTitle="On"  ToggledChanged="ActiveBillingCode"/>
+                
+                    </div> 
+                    <MudTextField class="comment" @bind-Value="Note" Lines="3" ></MudTextField>
+                </div>
+          
+           </MudPaper>
+        </div>
+
+        <style>
+        .container{
+            min-width: 400px;             
+        }
+        .inner{
+            display: grid;
+              grid-template-columns:  auto 50px;
+              grid-template-rows: 1fr 2fr;
+              grid-template-areas: 
+                            "billing-code-name timer"
+                            "comment comment";
+        }
+        .billing-code-name
+        {
+            grid-area: billing-code-name;
+        }
+        .timer
+        {
+            grid-area: timer;
+        }
+        .comment
+        {
+            grid-area: comment;
+        }
+        </style>

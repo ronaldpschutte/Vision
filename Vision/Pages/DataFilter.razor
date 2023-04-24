@@ -1,0 +1,56 @@
+﻿@page "/filter"
+@using System.Collections.ObjectModel
+@using Microsoft.Extensions.Configuration
+@using Vision.Models
+@using Vision.Services
+
+<PageTitle>Filter</PageTitle>
+
+@* Search toevoegen *@
+
+
+
+
+<MudSelect T="int" Label="Departments"  MultiSelection="true" SelectAll="true">
+    @foreach (var department in dataContextProvider.Departments)
+    {
+        <MudSelectItem T="int" Value="@department.DepartmentId">@department.DepartmentName</MudSelectItem>
+    }
+</MudSelect>
+<MudSelect T="int" Label="Queues"  MultiSelection="true" SelectAll="true">
+    @foreach (var queue in dataContextProvider.Queues)
+    {
+        <MudSelectItem T="int" Value="@queue.QueueId">@queue.QueueName</MudSelectItem>
+    }
+</MudSelect>
+<MudSelect T="int" Label="Projecten"  MultiSelection="true" SelectAll="true">
+    @foreach (var project in dataContextProvider.Projects)
+    {
+        <MudSelectItem T="int" Value="@project.ProjectId">@project.ProjectNumber - @project.ProjectName</MudSelectItem>
+    }
+</MudSelect>
+<MudSelect T="int" Label="Companies"  MultiSelection="true" SelectAll="true">
+    @foreach (var company in dataContextProvider.Companies)
+    {
+        <MudSelectItem T="int" Value="@company.CompanyId">@company.CompanyName</MudSelectItem>
+    }
+</MudSelect>
+@*<MudSelect T="int" Label="ProjectStatus"  MultiSelection="true" SelectAll="true">
+    @foreach (var project in projects)
+    {
+        <MudSelectItem T="int" Value="@project.ProjectId">@project.ProjectNumber - @project.ProjectName</MudSelectItem>
+    }
+</MudSelect>
+<MudSelect T="int" Label="TicketStatus"  MultiSelection="true" SelectAll="true">
+    @foreach (var project in projects)
+    {
+        <MudSelectItem T="int" Value="@project.ProjectId">@project.ProjectNumber - @project.ProjectName</MudSelectItem>
+    }
+</MudSelect>
+<MudSelect T="int" Label="TaskStatus"  MultiSelection="true" SelectAll="true">
+    @foreach (var project in projects)
+    {
+        <MudSelectItem T="int" Value="@project.ProjectId">@project.ProjectNumber - @project.ProjectName</MudSelectItem>
+    }
+</MudSelect>*@
+<h3>Einde Filters</h3>

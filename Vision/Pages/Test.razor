@@ -1,0 +1,82 @@
+﻿@page "/test"
+@using Microsoft.AspNetCore.SignalR.Client
+@using Vision.Services;
+@using Vision.Models;
+@inject NavigationManager NavigationManager
+@implements IAsyncDisposable
+
+<PageTitle>Index</PageTitle>
+
+<hr/>
+
+<button @onclick="Send" disabled="@(!IsConnected)">Send</button>
+
+<hr />
+
+<ul id="messagesList">
+    @foreach (var message in messages)
+    {
+        <li>@message</li>
+    }
+</ul>
+
+@code {
+    [Inject]
+    private  EventGridService eventGridService { get; set; }
+
+    private HubConnection? hubConnection;
+    private List<string> messages = new List<string>();
+    private string? userInput;
+    private string? messageInput;
+
+    protected override async Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(NavigationManager.ToAbsoluteUri("/sync"))
+            .Build();
+
+        hubConnection.On<string, string>("ReceiveMessage", (user, message) =>
+        {
+            var encodedMsg = $"{user}: {message}";
+            messages.Add(encodedMsg);
+            StateHasChanged();
+        });
+
+        await hubConnection.StartAsync();
+
+
+    }
+    private async Task Send()
+    {
+        if (eventGridService is not null)
+        {
+            await eventGridService.SendDataSyncedEvent(new Vision.Models.Setting() { DbKey = "1", DbValue = "bladhew" });
+        }
+	}
+    private async Task Send(Setting setting)
+    {
+        if (eventGridService is not null)
+        {
+            
+            await eventGridService.SendDataSyncedEvent(setting);
+        }
+	}
+        private async Task Send(WorkflowStep wfs)
+    {
+        if (eventGridService is not null)
+        {
+            
+            await eventGridService.SendDataSyncedEvent(wfs);
+        }
+	}
+
+    public bool IsConnected => hubConnection?.State == HubConnectionState.Connected;
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
+    }
+}

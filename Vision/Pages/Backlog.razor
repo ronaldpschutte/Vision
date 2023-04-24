@@ -1,0 +1,106 @@
+﻿@page "/backlog"
+@using System.Collections.ObjectModel
+@using Microsoft.Extensions.Configuration
+@using Vision.Helpers
+@using Vision.Models
+@using MudBlazor.Utilities
+
+
+<PageTitle>Backlog</PageTitle>
+<div class="row">
+    <br />
+    <div class="d-flex flex-column mud-width-full mud-height-full">
+@*        <MudSelect @ref="mudSelect" T="string" Label="Grouping"  ValueChanged="@((string e) =>GroupChanged(e))">
+            <MudSelectItem Value="@("Company")"></MudSelectItem>
+            <MudSelectItem Value="@("Project")"></MudSelectItem>
+            <MudSelectItem Value="@("Phase")"></MudSelectItem>
+        </MudSelect><br />
+*@
+        <MudDivider></MudDivider>
+        <MudTable @ref="_mudTable" Items="@CurrectSprintSteps" Hover="true" Breakpoint="Breakpoint.Sm" Height="100vh" 
+        FixedHeader="true" Virtualize="true" LoadingProgressColor="Color.Info" @bind-SelectedItem="_selectedItem" 
+          GroupBy="@CompanyGroup"
+          GroupHeaderStyle="background-color:var(--mud-palette-background-grey)"
+          GroupFooterClass="mb-4"
+          Dense="true"
+           Filter="new Func<WorkflowStep,bool>(FilterFunc)"
+            SortLabel="Sort By" CommitEditTooltip="Commit Edit" RowEditCommit="ItemHasBeenCommitted">
+         <ToolBarContent>
+           <MudSpacer />  <MudText Typo="Typo.subtitle1">Search for tasks:&nbsp;&nbsp;&nbsp;</MudText>
+               
+            <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+         
+        </ToolBarContent> 
+
+        <HeaderContent>
+                @*<MudTh>Id</MudTh>*@
+                <MudTh>Autotask Number</MudTh>
+                <MudTh>Title</MudTh>
+                <MudTh>Description</MudTh>
+                <MudTh>Team Member</MudTh>
+                <MudTh>Estimated Hours</MudTh>
+                <MudTh>Actual Hours</MudTh>
+                <MudTh>Status</MudTh>
+            </HeaderContent>
+                
+            <GroupHeaderTemplate>
+                    <MudTh Style="font-weight:bold">@($"{context.GroupName}: {context.Key.ToString().Split("|")[0]}") </MudTh> 
+                    <MudTh>@((context.Key.ToString().Contains("|") ? $"{context.Key.ToString().Split("|")[1]}":""))</MudTh>
+                    <MudTh>@if (context.GroupName == "Project") { <span>Start: @contextProvider.Projects.Where(p => p.ProjectNumber == context.Key.ToString().Split("|")[0]).FirstOrDefault().StartDateTime.ToShortDateString()</span>}</MudTh>
+                    <MudTh>@if (context.GroupName == "Project") { <span>End: @contextProvider.Projects.Where(p => p.ProjectNumber == context.Key.ToString().Split("|")[0]).FirstOrDefault().EndDateTime.ToShortDateString()</span>}</MudTh>
+                    <MudTh>@context.Items.Sum((e) => e.EstimatedHours)</MudTh>
+                    <MudTh>@context.Items.Sum((e) => e.ActualHours)</MudTh>
+                    <MudTh>@if (context.GroupName == "Project") { <span>@contextProvider.Projects.Where(p => p.ProjectNumber == context.Key.ToString().Split("|")[0]).FirstOrDefault().ProjectType</span>}</MudTh>
+            </GroupHeaderTemplate>
+            <RowTemplate>
+               @* <MudTd DataLabel="Id">@context.WorkflowStepId</MudTd>*@
+                <MudTd DataLabel="AutotaskNumber">@context.AutotaskNumber</MudTd>
+                <MudTd DataLabel="Title">@context.Title</MudTd>
+                @if (context.Description != null && context.Description.Length > 75)
+                {
+                    <MudTd DataLabel="Description" Style="min-width:75px;">@($"{context.Description.Substring(0,75)}...")</MudTd>
+                }
+                else
+                {
+                    <MudTd DataLabel="Description" Style="min-width:75px;">@context.Description</MudTd>
+                }
+
+                <MudTd DataLabel="TeamMember">@context.AssignedTeamMember?.UserName</MudTd>
+                <MudTd DataLabel="EstimatedHours">@context.EstimatedHours</MudTd>
+                <MudTd DataLabel="ActualHours">@context.ActualHours</MudTd>
+                <MudTd DataLabel="Status">@context.AutotaskStatus.AutoTaskStatusText</MudTd>
+                <MudIconButton Icon="@Icons.TwoTone.FormatListNumbered" OnClick="() => SetTaskToToBePlanned(context)" />
+            </RowTemplate>
+            <RowEditingTemplate>
+               @* <MudTd DataLabel="Id">@context.WorkflowStepId</MudTd>*@
+                <MudTd DataLabel="AutotaskNumber">@context.AutotaskNumber</MudTd>
+                <MudTd DataLabel="Title">@context.Title</MudTd>
+                <MudTd DataLabel="Description">@context.Description</MudTd>
+                <MudTd DataLabel="TeamMember">
+                    @*<MudTextField @bind-Value="@context.AssignedTeamMemberId" />*@
+                    <MudSelect T="int?" Label="Team Member" @bind-Value="@context.AssignedTeamMemberId" AnchorOrigin="Origin.BottomCenter">
+                        @foreach (var tm in ActiveTeamMembers)
+                        {
+                            <MudSelectItem Value="@tm.TeamMemberId"> @tm.UserName </MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudTd>
+                <MudTd DataLabel="EstimatedHours">@context.EstimatedHours</MudTd>
+                <MudTd DataLabel="ActualHours">@context.ActualHours</MudTd>
+                <MudTd DataLabel="Status">
+                    <MudSelect T="int" Label="Status" @bind-Value="@context.AutotaskStatusId" AnchorOrigin="Origin.BottomCenter">
+                        @foreach (var status in Statusses)
+                        {
+                            <MudSelectItem Value="@status.AutoTaskStatusId" >@status.AutoTaskStatusText</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudTd>
+                
+            </RowEditingTemplate>
+        </MudTable>
+    </div>
+    <div class="col-lg-12 control-section" style="padding: 2vw;">
+    </div>
+</div>
+@ErrorMessage
+<br />

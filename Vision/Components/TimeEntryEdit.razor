@@ -1,0 +1,164 @@
+﻿@*<MudButton OnClick="@(()=>CreationDialog=true)">Create time entry</MudButton>
+<MudButton OnClick="@OpenTimeEntry">Create time entry</MudButton>*@
+<MudDialog Class="col-10">
+    <DialogContent>
+        <div class="row">
+            <div class="col-12">
+                <p style="color:red">
+                    @Errors
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-2 col-lg-4 col-sm-12">
+                <MudSelect T="int?" Label="Billing Code"
+                           Placeholder="Select a billing code" @bind-Value="@NewTimeEntry.BillingCodeID">
+                    @foreach (var item in BillingCodes)
+                    {
+                        <MudSelectItem Value="(int?)item.Id">@item.Name</MudSelectItem>
+                    }
+                </MudSelect>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-2 col-lg-4 col-sm-12">
+                <MudSelect T="int" Label="Role"
+                           Placeholder="Select a Role" @bind-Value="@NewTimeEntry.RoleID">
+                    @foreach (var item in Roles)
+                    {
+                        <MudSelectItem Value="(int)item.Id">@item.Name</MudSelectItem>
+                    }
+                </MudSelect>
+            </div>
+        </div>
+        <div class="row">
+            @*<div class="col-xl-2 col-lg-4 col-sm-12">
+            DateWorked
+            <MudDatePicker @bind-Value="NewTimeEntry.DateWorked" Placeholder="Choose a Date"></MudDatePicker>
+            </div>*@
+            @*<div class="col-xl-2 col-lg-4 col-sm-12">
+            HoursWorked
+            <MudNumericField @bind-Value="NewTimeEntry.HoursWorked" Format="n3" Min=0 Max="24"></MudNumericField>
+            </div>*@
+            <div class="col-xl-2 col-lg-4 col-sm-12">
+                Starttime
+                <MudTimePicker @bind-Time="@tsStart" Editable="true" />
+
+            </div>
+            <div class="col-xl-2 col-lg-4 col-sm-12">
+                Endtime
+                <MudTimePicker @bind-Time="@tsEnd" Editable="true" />
+            </div>
+            @*                <div class="col-xl-2 col-lg-4 col-sm-12">
+            OffsetHours
+            <SfNumericTextBox TValue="double?" @bind-Value="NewTimeEntry.OffsetHours" ValidateDecimalOnType="true" Format="n3" Decimals=3 Min=0 Max="24"></SfNumericTextBox>
+            </div>*@
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <MudTextField Placeholder="Summary Notes" @bind-Value="NewTimeEntry.SummaryNotes"></MudTextField>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <MudTextField Placeholder="Internal Notes" @bind-Value="NewTimeEntry.InternalNotes"></MudTextField>
+            </div>
+        </div>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="CloseTimeEntry">Cancel</MudButton>
+        <MudButton Variant="Variant.Filled" OnClick="SaveTimeEntry">Save</MudButton>
+    </DialogActions>
+</MudDialog>
+@*</Content>
+    </DialogTemplates>
+    <DialogEvents OnOpen="@DialogOpen" Closed="@DialogClose"></DialogEvents>
+    <DialogButtons>
+        <DialogButton Content="Save" IsPrimary="true" OnClick="@SaveTimeEntry" />
+        <DialogButton Content="Cancel" OnClick="@CloseTimeEntry" />
+    </DialogButtons>
+</SfDialog>*@
+
+
+
+@*@if (workflowStep.StepType == 0)
+{
+    @foreach (var item in timeEntryService.GetTimeEntriesByTaskId(workflowStep.WorkflowStepId).OrderByDescending(x => x.CreateDateTime))
+    {
+        <hr />
+        <div class="row">
+            <div class="col-12">
+                <p>
+                    <b>@teamMemberService.GetTeamMember(item.ResourceId).FullName</b>
+                    <br />
+                    @if (item.EndDateTime == null && item.StartDateTime == null)
+                    {
+                        <span style="font-size:0.8em">@item.DateWorked.Value.ToString("dd-MM-yyyy") (@item.HoursWorked.Value.ToString("n3"))</span>
+                    }
+                    else
+                    {
+                        <span style="font-size:0.8em">@item.StartDateTime.Value.ToString("dd-MM-yyyy H:mm") - @item.EndDateTime.Value.ToString("H:mm") (@item.HoursWorked)</span>
+                    }
+
+                    <br />
+                    <span style="border:1px solid rgb(0,0,0,0.5)">@item.SummaryNotes</span>
+                    <br />@if (item.InternalNotes != "" && item.InternalNotes != null)
+                    {
+                        <span style="color: #2aa85f;border: 1px solid #2aa85f;border-radius: 5px;">Internal</span>
+                        <br />
+                        <span style="color: #2aa85f;border:1px solid #2aa85f">@item.InternalNotes</span>
+                        <br />
+                    }
+                    @if (item.CreateDateTime != null)
+                    {
+                        <span style="font-size:0.8em">@item.CreateDateTime.Value.ToString("dd-MM-yyyy H:mm")</span>
+                    }
+                    else
+                    {
+                        <span style="font-size:0.8em">undifined</span>
+
+                    }
+                </p>
+            </div>
+        </div>
+    }*@
+@*@((MarkupString)JsonConvert.SerializeObject(timeEntryService.GetTimeEntriesByTaskId(workflowStep.WorkflowStepId), Formatting.Indented).Replace("\r\n","<br/>").Replace(" ","&nbsp;"))*@
+
+@*}
+else if (workflowStep.StepType == 1)
+{
+    @foreach (var item in timeEntryService.GetTimeEntriesByTicketId(workflowStep.WorkflowStepId).OrderByDescending(x => x.CreateDateTime))
+    {
+        <hr />
+        <TimeEntryDisplay TimeEntry="item" />*@
+@*<div class="row">
+            <div class="col-12">
+                <p>
+                    <b>@teamMemberService.GetTeamMember(item.ResourceId).FullName</b>
+                    <br />
+                    @if (item.EndDateTime == null && item.StartDateTime == null)
+                    {
+                        <span style="font-size:0.8em">@item.DateWorked.Value.ToString("dd-MM-yyyy") (@item.HoursWorked)</span>
+                    }
+                    else
+                    {
+                        <span style="font-size:0.8em">@item.StartDateTime.Value.ToString("dd-MM-yyyy H:mm") - @item.EndDateTime.Value.ToString("H:mm") (@item.HoursWorked)</span>
+                    }
+
+                    <br />
+                    <span style="border:1px solid rgb(0,0,0,0.5)">@item.SummaryNotes</span>
+                    <br />@if (item.InternalNotes != "" && item.InternalNotes != null)
+                    {
+                        <span style="color: #2aa85f;border: 1px solid #2aa85f;border-radius: 5px;">Internal</span>
+                        <br />
+                        <span style="color: #2aa85f;border:1px solid #2aa85f">@item.InternalNotes</span>
+                        <br />
+                    }
+                    <span style="font-size:0.8em">@item.CreateDateTime.Value.ToString("dd-MM-yyyy H:mm")</span>
+                </p>
+            </div>
+        </div>*@
+
+@*}*@
+@*@((MarkupString)JsonConvert.SerializeObject(timeEntryService.GetTimeEntriesByTicketId(workflow.WorkflowStepId), Formatting.Indented).Replace("\r\n","<br/>").Replace(" ","&nbsp;"))*@
+@*}*@
